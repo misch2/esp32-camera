@@ -458,6 +458,8 @@ static const uint8_t special_effects_regs[NUM_SPECIAL_EFFECTS + 1][5] = {
     {0x00, 0X18, 0x05, 0X40, 0XA6 }, /* retro */
 };
 
+#define NUM_NIGHT_MODES (2)
+
 #define NUM_WB_MODES (4)
 static const uint8_t wb_modes_regs[NUM_WB_MODES + 1][3] = {
     {0XCC, 0XCD, 0XCE },

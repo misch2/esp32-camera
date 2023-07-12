@@ -458,6 +458,7 @@ esp_err_t esp_camera_load_from_nvs(const char *key)
                 s->set_sharpness(s, st.sharpness);
                 s->set_special_effect(s, st.special_effect);
                 s->set_vflip(s, st.vflip);
+                s->set_night_mode(s, st.night_mode);
                 s->set_wb_mode(s, st.wb_mode);
                 s->set_whitebal(s, st.awb);
                 s->set_wpc(s, st.wpc);
