@@ -183,6 +183,7 @@ typedef struct {
     uint8_t denoise;
     uint8_t special_effect;//0 - 6
     uint8_t wb_mode;//0 - 4
+    uint8_t night_mode;//0 - 2
     uint8_t awb;
     uint8_t awb_gain;
     uint8_t aec;
@@ -236,6 +237,7 @@ typedef struct _sensor {
 
     int  (*set_special_effect)  (sensor_t *sensor, int effect);
     int  (*set_wb_mode)         (sensor_t *sensor, int mode);
+    int  (*set_night_mode)      (sensor_t *sensor, int mode);
     int  (*set_ae_level)        (sensor_t *sensor, int level);
 
     int  (*set_dcw)             (sensor_t *sensor, int enable);
