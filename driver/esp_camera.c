@@ -69,6 +69,9 @@
 #if CONFIG_SC031GS_SUPPORT
 #include "sc031gs.h"
 #endif
+#if CONFIG_MEGA_CCM_SUPPORT
+#include "mega_ccm.h"
+#endif
 
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
 #include "esp32-hal-log.h"
@@ -143,6 +146,9 @@ static const sensor_func_t g_sensors[] = {
 #if CONFIG_SC031GS_SUPPORT
     {sc031gs_detect, sc031gs_init},
 #endif
+#if CONFIG_MEGA_CCM_SUPPORT
+    {mega_ccm_detect, mega_ccm_init},
+#endif
 };
 
 static esp_err_t camera_probe(const camera_config_t *config, camera_model_t *out_camera_model)
@@ -153,7 +159,7 @@ static esp_err_t camera_probe(const camera_config_t *config, camera_model_t *out
         return ESP_ERR_INVALID_STATE;
     }
 
-    s_state = (camera_state_t *) calloc(sizeof(camera_state_t), 1);
+    s_state = (camera_state_t *) calloc(1, sizeof(camera_state_t));
     if (!s_state) {
         return ESP_ERR_NO_MEM;
     }
