@@ -116,6 +116,20 @@ menu "Camera configuration"
             SC031GS is a global shutter CMOS sensor with high frame rate and single-frame HDR.
             Enable this option if you want to use the SC031GS.
             Disable this option to save memory.
+    
+    config HM1055_SUPPORT
+        bool "Support HM1055 VGA"
+        default y
+        help
+            Enable this option if you want to use the HM1055.
+            Disable this option to save memory.
+    
+    config HM0360_SUPPORT
+        bool "Support HM0360 VGA"
+        default y
+        help
+            Enable this option if you want to use the HM0360.
+            Disable this option to save memory.
 
     config MEGA_CCM_SUPPORT
         bool "Support MEGA CCM 5MP"
@@ -124,6 +138,20 @@ menu "Camera configuration"
             Enable this option if you want to use the MEGA CCM.
             Disable this option to save memory.
             
+    choice SCCB_HARDWARE_I2C_DRIVER_SELECTION
+        prompt "I2C driver selection for SCCB"
+        default SCCB_HARDWARE_I2C_DRIVER_NEW
+        help
+            Select the I2C driver to use for SCCB communication.
+            NOTE: new driver is only supported for ESP-IDF >= 5.4.
+
+        config SCCB_HARDWARE_I2C_DRIVER_LEGACY
+            bool "Legacy I2C driver"
+        config SCCB_HARDWARE_I2C_DRIVER_NEW
+            bool "New I2C driver"
+
+    endchoice
+
     choice SCCB_HARDWARE_I2C_PORT
         bool "I2C peripheral to use for SCCB"
         default SCCB_HARDWARE_I2C_PORT1

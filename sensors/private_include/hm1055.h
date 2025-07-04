@@ -1,13 +1,9 @@
 /*
- *
- * SC031GS DVP driver.
- *
+ * HM1055 driver.
  */
-#ifndef __SC031GS_H__
-#define __SC031GS_H__
-
+#ifndef __HM1055_H__
+#define __HM1055_H__
 #include "sensor.h"
-
 /**
  * @brief Detect sensor pid
  *
@@ -17,7 +13,7 @@
  *     0:       Can't detect this sensor
  *     Nonzero: This sensor has been detected
  */
-int sc031gs_detect(int slv_addr, sensor_id_t *id);
+int hm1055_detect(int slv_addr, sensor_id_t *id);
 
 /**
  * @brief initialize sensor function pointers
@@ -26,6 +22,6 @@ int sc031gs_detect(int slv_addr, sensor_id_t *id);
  * @return
  *      Always 0
  */
-int sc031gs_init(sensor_t *sensor);
+int hm1055_init(sensor_t *sensor);
 
-#endif // __SC031GS_H__
+#endif // __HM1055_H__
