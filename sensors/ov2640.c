@@ -301,6 +301,50 @@ static int set_special_effect(sensor_t *sensor, int effect)
     return ret;
 }
 
+// 0, 1, 2
+static int set_night_mode(sensor_t* sensor, int mode) {
+    int ret = 0;
+    if (mode < 0 || mode > NUM_NIGHT_MODES) {
+        return -1;
+    }
+    sensor->status.night_mode = mode;
+
+    if ((mode == 0) || (mode == 2)) {
+        // CLKRC: Set Clock Divider to 0 = fullspeed
+        SET_REG_BITS_OR_RETURN(BANK_SENSOR, CLKRC, 0, 0x3f, 0x00);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+    }
+    if ((value == 0) || (value == 1)) {
+        // Stop Nightmode
+        SET_REG_BITS_OR_RETURN(BANK_SENSOR, COM1, 0, 0xff,
+                               0x0a);  // COM1: Reset dummy frames
+        SET_REG_BITS_OR_RETURN(BANK_SENSOR, 0x0F, 0, 0xff,
+                               0x43);  // Reserved Reg
+        SET_REG_BITS_OR_RETURN(BANK_SENSOR, 0x0F, 0, 0xff,
+                               0x4b);  // Reserved Reg
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        SET_REG_BITS_OR_RETURN(BANK_SENSOR, 0x0F, 0, 0xff,
+                               0x43);  // Reserved Reg
+    }
+
+    switch (value) {
+        case 1:
+            // Reduce FPS
+            // CLKRC: Set Clock Divider to 2
+            SET_REG_BITS_OR_RETURN(BANK_SENSOR, CLKRC, 0, 0x3f, 0x02);
+            break;
+        case 2:
+            // Start Nightmode
+            SET_REG_BITS_OR_RETURN(BANK_SENSOR, 0x0F, 0, 0xff,
+                                   0x4b);  // Reserved Reg
+            SET_REG_BITS_OR_RETURN(BANK_SENSOR, COM1, 0, 0xff,
+                                   0xcf);  // COM1: Allow 7 dummy frames
+            break;
+    }
+
+    return ret;
+}
+
 static int set_wb_mode(sensor_t *sensor, int mode)
 {
     int ret=0;
@@ -509,6 +553,7 @@ static int init_status(sensor_t *sensor){
     sensor->status.saturation = 0;
     sensor->status.ae_level = 0;
     sensor->status.special_effect = 0;
+    sensor->status.night_mode = 0;
     sensor->status.wb_mode = 0;
 
     sensor->status.agc_gain = 30;
@@ -586,6 +631,7 @@ int ov2640_init(sensor_t *sensor)
     sensor->set_aec2 = set_aec2;
     sensor->set_aec_value = set_aec_value;
     sensor->set_special_effect = set_special_effect;
+    sensor->set_night_mode = set_night_mode;
     sensor->set_wb_mode = set_wb_mode;
     sensor->set_ae_level = set_ae_level;
 

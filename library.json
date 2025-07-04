@@ -1,11 +1,12 @@
 {
   "name": "esp32-camera",
-  "version": "2.0.0",
+  "version": "2.0.0-ov2640-nightmode",
   "keywords": "esp32, camera, espressif, esp32-cam",
   "description": "ESP32 compatible driver for OV2640, OV3660, OV5640, OV7670 and OV7725 image sensors.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/espressif/esp32-camera"
+    "url": "https://github.com/misch2/esp32-camera",
+    "branch": "ov2640-nightmode"
   },
   "frameworks": "espidf",
   "platforms": "*",
